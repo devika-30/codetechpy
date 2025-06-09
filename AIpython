@@ -1,0 +1,35 @@
+from transformers import pipeline
+
+# Initialize the summarizer using a pre-trained model
+summarizer = pipeline("summarization", model="facebook/bart-large-cnn")
+
+def summarize_text(text, max_length=130, min_length=30):
+    """
+    Summarizes the input text using a pre-trained transformer model.
+
+    Args:
+        text (str): The input article/text to summarize.
+        max_length (int): The max length of the summary.
+        min_length (int): The min length of the summary.
+
+    Returns:
+        str: The summarized text.
+    """
+    summary = summarizer(text, max_length=max_length, min_length=min_length, do_sample=False)
+    return summary[0]['summary_text']
+
+# Example: Input text
+input_text = """
+Artificial intelligence is transforming industries by automating processes, analyzing large datasets, 
+and enhancing decision-making. From healthcare to finance, AI technologies such as machine learning 
+and natural language processing are providing insights and efficiencies never seen before. As AI 
+continues to evolve, it raises questions about ethics, job displacement, and data privacy. 
+Nonetheless, companies are investing heavily in AI research and applications to stay competitive.
+"""
+
+# Summarize the input
+summary = summarize_text(input_text)
+
+# Output
+print("Original Text:\n", input_text)
+print("\nSummarized Text:\n", summary)
